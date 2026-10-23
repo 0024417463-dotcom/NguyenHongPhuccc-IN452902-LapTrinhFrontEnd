@@ -1,0 +1,8 @@
+/* main.css — tệp duy nhất mà HTML liên kết tới.
+   Thứ tự lớp: lớp viết SAU thắng lớp viết TRƯỚC. */
+@layer tokens, base, layout, components;
+
+@import url("tokens.css") layer(tokens);
+@import url("base.css") layer(base);
+@import url("layout.css") layer(layout);
+@import url("components.css") layer(components);
