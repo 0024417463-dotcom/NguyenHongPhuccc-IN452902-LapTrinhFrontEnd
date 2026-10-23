@@ -2,7 +2,8 @@
 
 Bài thực hành chương 2 môn **IN4529 — Lập trình Front End** (Nguyễn Hồng Phúc, Trường Đại học Đồng Tháp).
 Tạo kiểu cho 4 trang EduHub Web bằng **CSS thuần**: design token, `@layer`, mobile-first, Grid/Flexbox, nesting, `:has()`, `:user-invalid`, dark mode.
-
+   Demo: https://0024417463-dotcom.github.io/NguyenHongPhuccc-IN452902-LapTrinhFrontEnd/
+   
 ## Chạy
 
 Mở `index.html` bằng Live Server của VS Code, hoặc `npx -y http-server . -p 8080`.
