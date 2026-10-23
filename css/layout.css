@@ -121,11 +121,14 @@
   background: linear-gradient(135deg, var(--color-hero-from), var(--color-hero-to));
   color: var(--palette-white);
 
-  /* .container đã set padding-inline; hero cần padding riêng + giới hạn bề rộng */
-  inline-size: calc(100% - 2 * var(--space-4));
+  /* Hero dùng chung .container nhưng cần padding riêng: trừ lề gutter để khớp các section */
+  --gutter: var(--space-4);
+  inline-size: min(100% - 2 * var(--gutter), var(--container-max) - 2 * var(--gutter));
+  max-inline-size: none;
+  padding-inline: var(--space-6);
 
   @media (width >= 40rem) {
-    inline-size: calc(100% - 2 * var(--space-6));
+    --gutter: var(--space-6);
     padding: var(--space-8);
   }
 

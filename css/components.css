@@ -1,48 +1,573 @@
 /* ==========================================================================
-   components.css — các khối giao diện dùng lại được
-   Đặt tên kiểu BEM: block__element--modifier. Dùng nesting gốc (&) để gom kiểu.
-   Ví dụ nesting:
-     .btn {
-       padding: var(--space-2) var(--space-6);
-       &:hover { translate: 0 -1px; }
-     }
+   components.css — các khối giao diện dùng lại được (BEM + nesting gốc)
    ========================================================================== */
 
-/* TODO(ch2-T3): .skip-link — đẩy ra khỏi màn hình (translate: 0 -200%), hiện lại khi :focus-visible */
+/* ---------- Skip link ---------- */
+.skip-link {
+  position: absolute;
+  inset-inline-start: var(--space-4);
+  top: var(--space-2);
+  z-index: 100;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-sm);
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+  font-weight: 700;
+  translate: 0 -200%;
 
-/* TODO(ch2-T3): .brand (logo + chữ, inline-flex), .brand__logo (2.25rem), .brand__name span tô màu nhấn */
+  &:focus-visible {
+    translate: 0 0;
+  }
+}
 
-/* TODO(ch2-T3): .site-nav__link — viên thuốc bo tròn, cao ≥ 2.75rem (44px);
-   &[aria-current="page"] nền --color-accent để biết đang ở trang nào */
+/* ---------- Brand & menu ---------- */
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-block-size: var(--tap-size);
+  color: var(--color-header-text);
+  font-size: var(--text-xl);
+  font-weight: 800;
+  text-decoration: none;
 
-/* TODO(ch2-T3): .btn + .btn--primary / .btn--accent / .btn--ghost, cao ≥ 2.75rem, có transition khi hover;
-   .btn-row xếp nút bằng Flexbox; .hero__eyebrow, .hero__lead, .hero__media */
+  & .brand__logo {
+    inline-size: 2.25rem;
+    block-size: 2.25rem;
+  }
+  & .brand__name span {
+    color: var(--color-accent);
+  }
+}
 
-/* TODO(ch2-T4): .tag (nhãn CLB) và .badge.badge--hot (nhãn "Sắp hết chỗ" màu cảnh báo,
-   ★ chấm tròn nhấp nháy bằng ::before + @keyframes) */
+.site-nav__link {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: var(--tap-size);
+  padding-inline: var(--space-4);
+  border-radius: var(--radius-full);
+  color: var(--color-header-text);
+  font-weight: 500;
+  text-decoration: none;
+  transition: background-color var(--duration-fast), color var(--duration-fast);
 
-/* TODO(ch2-T4): .card — flex cột, viền, bo góc, nền --color-surface, bóng; hover nhấc lên có transition.
-   &:has(.badge--hot) → viền màu --color-warning (KHÔNG thêm class mới vào HTML).
-   .card__media: aspect-ratio 16/9 + object-fit: cover.
-   .card__body: flex: 1 để card cùng hàng cao bằng nhau. .card__meta, .card__title, .card__text.
-   ★ .card__title a::after { position: absolute; inset: 0 } để bấm cả card. */
+  &:hover {
+    background: rgb(255 255 255 / 0.14);
+  }
+  &[aria-current="page"] {
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+    font-weight: 700;
+  }
+}
 
-/* TODO(ch2-T4): .event-card__info, .event-card__seats (margin-block-start: auto để nằm đáy card);
-   .club-card (viền trên màu nhấn) */
+/* ---------- Nút ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-block-size: var(--tap-size);
+  padding: var(--space-2) var(--space-6);
+  border: 2px solid transparent;
+  border-radius: var(--radius-full);
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: translate var(--duration-fast), box-shadow var(--duration-fast),
+    background-color var(--duration-fast);
 
-/* TODO(ch2-T4): .faq và .faq__item — summary bỏ tam giác mặc định (list-style: none),
-   thêm dấu "+" bằng ::after, &[open] thì xoay 45deg */
+  &:hover {
+    translate: 0 -2px;
+    box-shadow: var(--shadow-md);
+  }
+  &:active {
+    translate: 0 0;
+  }
+}
 
-/* TODO(ch2-T5): .table-wrap { overflow-x: auto } và .table (min-inline-size ~40rem, viền, hàng chẵn tô nền,
-   cột số căn phải) — bảng cuộn trong khung, trang không cuộn ngang */
+.btn--primary {
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+}
+.btn--accent {
+  background: var(--color-accent);
+  color: var(--palette-blue-900);
+}
+.btn--ghost {
+  border-color: currentcolor;
+  background: transparent;
+  color: var(--color-primary);
 
-/* TODO(ch2-T5): .back-link, .detail__media, .detail__organizer, .prose (h2, ol/ul, li::marker),
-   .info-card với dl dàn Grid 2 cột (grid-template-columns: auto 1fr), .cta */
+  .hero & {
+    color: var(--palette-white);
+  }
+  &:hover {
+    background: color-mix(in srgb, currentcolor 12%, transparent);
+  }
+}
 
-/* TODO(ch2-T6): .form (thẻ nền surface, bo góc), fieldset (bỏ viền, min-inline-size: 0), legend.
-   .form__grid: 1 cột, từ 40rem 2 cột. .field: Grid, align-content: start;
-   input/select/textarea full width, cao ≥ 2.75rem, &:focus-visible và &:user-invalid (viền --color-danger).
-   .field--full chiếm cả hàng (grid-column: 1 / -1). */
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-block-start: var(--space-6);
+}
 
-/* TODO(ch2-T6): .choice-group__options (Flexbox), .choice viên thuốc;
-   .choice:has(input:checked) tô nền; .field--check cho ô đồng ý */
+.hero__eyebrow {
+  margin-block-end: var(--space-2);
+  color: var(--color-accent);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.hero__lead {
+  max-inline-size: 52ch;
+  margin-block-start: var(--space-4);
+  font-size: var(--text-lg);
+}
+.hero__media {
+  inline-size: 100%;
+  border-radius: var(--radius-md);
+}
+
+/* ---------- Tag & badge ---------- */
+.tag {
+  display: inline-block;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+.badge--hot {
+  background: var(--color-warning-bg);
+  color: var(--color-warning);
+
+  &::before {
+    content: "";
+    inline-size: 0.5rem;
+    block-size: 0.5rem;
+    border-radius: 50%;
+    background: currentcolor;
+    animation: pulse 1.4s ease-in-out infinite;
+  }
+}
+
+@keyframes pulse {
+  50% {
+    opacity: 0.25;
+    scale: 0.7;
+  }
+}
+
+/* ---------- Card ---------- */
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+  transition: translate var(--duration-normal), box-shadow var(--duration-normal),
+    border-color var(--duration-normal);
+
+  &:hover,
+  &:focus-within {
+    translate: 0 -4px;
+    box-shadow: var(--shadow-lg);
+  }
+  &:has(.badge--hot) {
+    border-color: var(--color-warning);
+  }
+}
+
+.card__media {
+  inline-size: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+.card__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4);
+}
+.card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+.card__title {
+  font-size: var(--text-lg);
+
+  & a {
+    color: inherit;
+    text-decoration: none;
+
+    /* Phủ kín card để bấm vào đâu cũng được */
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+    }
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+.card__text {
+  color: var(--color-text-muted);
+}
+
+.event-card__info {
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+.event-card__seats {
+  margin-block-start: auto;
+  padding-block-start: var(--space-2);
+  color: var(--color-success);
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.club-card {
+  padding: var(--space-6);
+  border: 1px solid var(--color-border);
+  border-block-start: 4px solid var(--color-accent);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+
+  & h3 {
+    margin-block-end: var(--space-2);
+  }
+  & p {
+    color: var(--color-text-muted);
+  }
+}
+
+/* ---------- FAQ ---------- */
+.faq {
+  display: grid;
+  gap: var(--space-3);
+}
+.faq__item {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+
+  & summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    min-block-size: var(--tap-size);
+    padding: var(--space-3) var(--space-4);
+    font-weight: 600;
+    list-style: none;
+    cursor: pointer;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+    &::after {
+      content: "+";
+      flex: none;
+      color: var(--color-primary);
+      font-size: var(--text-2xl);
+      line-height: 1;
+      transition: rotate var(--duration-normal);
+    }
+  }
+  & p {
+    padding: 0 var(--space-4) var(--space-4);
+    color: var(--color-text-muted);
+  }
+  &[open] summary::after {
+    rotate: 45deg;
+  }
+}
+
+/* ---------- Bảng ---------- */
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+.table {
+  inline-size: 100%;
+  min-inline-size: 40rem;
+  border-collapse: collapse;
+
+  & caption {
+    padding: var(--space-3) var(--space-4);
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    text-align: start;
+  }
+  & th,
+  & td {
+    padding: var(--space-3) var(--space-4);
+    border-block-start: 1px solid var(--color-border);
+    text-align: start;
+    vertical-align: top;
+  }
+  & thead th {
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+    white-space: nowrap;
+  }
+  & tbody tr:nth-child(even) {
+    background: var(--color-row-alt);
+  }
+  & th[scope="row"] {
+    font-weight: 600;
+  }
+  /* Cột "Số chỗ" (cuối) căn phải */
+  & th:last-child,
+  & td:last-child {
+    text-align: end;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* ---------- Trang chi tiết ---------- */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: var(--tap-size);
+  font-weight: 600;
+}
+.detail__organizer {
+  margin-block-start: var(--space-2);
+  color: var(--color-text-muted);
+}
+.detail__media {
+  inline-size: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+}
+
+.prose {
+  max-inline-size: 65ch;
+
+  & h2 {
+    margin-block-end: var(--space-3);
+  }
+  & p {
+    margin-block-end: var(--space-3);
+  }
+  & :is(ol, ul) {
+    padding-inline-start: var(--space-6);
+  }
+  & li {
+    margin-block-end: var(--space-2);
+
+    &::marker {
+      color: var(--color-primary);
+      font-weight: 700;
+    }
+  }
+}
+
+.info-card {
+  padding: var(--space-6);
+  border: 1px solid var(--color-border);
+  border-block-start: 4px solid var(--color-accent);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+
+  & h2 {
+    margin-block-end: var(--space-4);
+    font-size: var(--text-xl);
+  }
+  & dl {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--space-3) var(--space-4);
+  }
+  & dt {
+    color: var(--color-text-muted);
+    font-weight: 600;
+  }
+  & dd {
+    margin: 0;
+  }
+}
+
+.cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-6);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  border: 2px dashed var(--color-accent);
+
+  & p {
+    font-weight: 700;
+  }
+}
+
+/* ---------- Form ---------- */
+.form {
+  display: grid;
+  gap: var(--space-6);
+  padding: var(--space-6);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+
+  & fieldset {
+    min-inline-size: 0;
+    padding: 0;
+    border: 0;
+  }
+  & legend {
+    padding: 0;
+    margin-block-end: var(--space-4);
+    font-size: var(--text-lg);
+    font-weight: 700;
+  }
+  & fieldset > .field,
+  & fieldset > .choice-group {
+    margin-block-end: var(--space-4);
+  }
+  & abbr {
+    color: var(--color-danger);
+    text-decoration: none;
+  }
+  & .btn-row {
+    margin-block-start: 0;
+  }
+}
+
+.form__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+
+  @media (width >= 40rem) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.field {
+  display: grid;
+  align-content: start;
+  gap: var(--space-1);
+
+  & label {
+    font-weight: 600;
+  }
+  & :is(input, select, textarea) {
+    inline-size: 100%;
+    min-block-size: var(--tap-size);
+    padding: var(--space-2) var(--space-3);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg);
+    color: var(--color-text);
+
+    &:focus-visible {
+      border-color: var(--color-focus);
+    }
+    &:user-invalid {
+      border-color: var(--color-danger);
+    }
+  }
+  & textarea {
+    resize: vertical;
+  }
+  & small {
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+  }
+  &:has(:user-invalid) small {
+    color: var(--color-danger);
+  }
+}
+.field--full {
+  grid-column: 1 / -1;
+}
+
+.choice-group {
+  & legend {
+    font-size: var(--text-base);
+    font-weight: 600;
+  }
+}
+.choice-group__options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+.choice {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-block-size: var(--tap-size);
+  padding: var(--space-2) var(--space-4);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: background-color var(--duration-fast), border-color var(--duration-fast);
+
+  &:hover {
+    border-color: var(--color-primary);
+  }
+  &:has(input:checked) {
+    border-color: var(--color-primary);
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+    font-weight: 700;
+  }
+  &:has(input:focus-visible) {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+  & input {
+    accent-color: var(--color-accent);
+    inline-size: 1.1rem;
+    block-size: 1.1rem;
+  }
+}
+
+.field--check {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-block-size: var(--tap-size);
+
+  & input {
+    flex: none;
+    inline-size: 1.4rem;
+    block-size: 1.4rem;
+    accent-color: var(--color-primary);
+  }
+}
